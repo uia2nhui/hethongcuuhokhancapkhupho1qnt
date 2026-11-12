@@ -35,7 +35,98 @@
         </div>
     </div>
 
-    <!-- GIAO DIỆN CHÍNH (BỊ ẨN KHI CHƯA ĐĂNG NHẬP) -->
+    <!-- MODAL THÊM / SỬA HỘ CỨU HỘ -->
+    <div id="rescueModal" class="fixed inset-0 bg-slate-900 bg-opacity-75 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full p-6 md:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 id="modalTitle" class="text-lg font-black text-red-600">➕ Thêm Hộ Dân Cứu Hộ Mới</h3>
+                <button onclick="closeRescueModal()" class="text-gray-400 hover:text-gray-600 font-bold text-lg">✕</button>
+            </div>
+            <form onsubmit="saveRescueItem(event)" class="space-y-3">
+                <input type="hidden" id="editRowNum">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Họ và Tên</label>
+                        <input type="text" id="inputName" required placeholder="Nhập tên người cần cứu..." class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Số Điện Thoại</label>
+                        <input type="text" id="inputPhone" required placeholder="Số điện thoại..." class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Địa chỉ</label>
+                    <input type="text" id="inputAddress" required placeholder="Địa chỉ cụ thể..." class="w-full border rounded-lg p-2 text-xs">
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-700 mb-1">Tổng Người</label>
+                        <input type="number" id="inputTotal" value="1" min="1" class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-700 mb-1">Người Già</label>
+                        <input type="number" id="inputElders" value="0" min="0" class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-700 mb-1">Trẻ Em</label>
+                        <input type="number" id="inputChildren" value="0" min="0" class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-700 mb-1">Phụ Nữ Thai</label>
+                        <input type="number" id="inputPregnant" value="0" min="0" class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-700 mb-1">Người Lớn</label>
+                        <input type="number" id="inputAdults" value="1" min="0" class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Loại Nhà</label>
+                        <input type="text" id="inputHouseType" value="Nhà Cấp 4" class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Mức Ưu Tiên</label>
+                        <select id="inputPriority" class="w-full border rounded-lg p-2 text-xs font-bold">
+                            <option value="Cấp 1">Cấp 1 - Đỏ</option>
+                            <option value="Cấp 2" selected>Cấp 2 - Cam</option>
+                            <option value="Cấp 3">Cấp 3 - Vàng</option>
+                            <option value="Cấp 4">Cấp 4 - Xanh</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Phân Công Đội</label>
+                        <select id="inputDoi" class="w-full border rounded-lg p-2 text-xs font-bold">
+                            <option value="Đội 1">Đội 1</option>
+                            <option value="Đội 2">Đội 2</option>
+                            <option value="Đội 3">Đội 3</option>
+                            <option value="Đội 4">Đội 4</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Vị Trí Định Vị (Tọa độ GPS hoặc số vị trí)</label>
+                    <input type="text" id="inputGps" placeholder="Ví dụ: 13.789, 109.213 hoặc Vị trí số 15" class="w-full border rounded-lg p-2 text-xs">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Nhu Cầu / Tình Trạng</label>
+                        <input type="text" id="inputNeed" placeholder="VD: Cần sơ tán gấp, ngập sâu..." class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Ghi Chú</label>
+                        <input type="text" id="inputNote" placeholder="Ghi chú thêm..." class="w-full border rounded-lg p-2 text-xs">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-3 border-t">
+                    <button type="button" onclick="closeRescueModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold">Hủy</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700">💾 Lưu Lại</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- GIAO DIỆN CHÍNH -->
     <div id="mainDashboard" class="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl p-4 md:p-6 hidden">
         <!-- Header -->
         <div class="flex flex-col md:flex-row justify-between items-center border-b pb-4 mb-4 gap-4">
@@ -47,38 +138,53 @@
             <div class="flex items-center gap-3 flex-wrap justify-end">
                 <div class="flex bg-gray-200 p-1 rounded-xl">
                     <button onclick="switchTab('rescue')" id="tab-rescue" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm bg-white text-red-600 shadow">📋 Bảng Cứu Hộ Chính</button>
-                    <button onclick="switchTab('survey')" id="tab-survey" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm text-gray-600">⛰️ Khảo Sát Vùng Thấp</button>
+                    <button onclick="switchTab('completed')" id="tab-completed" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm text-gray-600">✅ Đã Hoàn Thành</button>
+                    <button onclick="switchTab('survey')" id="tab-survey" class="px-4 py-2 rounded-lg font-bold text-xs md:text-sm text-gray-600">⛰️ Khảo Sát</button>
                 </div>
                 <button onclick="handleLogout()" class="bg-gray-800 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-gray-900 transition">🔒 Đăng Xuất</button>
             </div>
         </div>
 
-        <!-- TAB 1: BẢNG CỨU HỘ CHÍNH -->
+        <!-- TAB 1: BẢNG CỨU HỘ CHÍNH (ĐANG CHỜ / ĐANG XỬ LÝ) -->
         <div id="section-rescue" class="space-y-4">
             <div class="flex flex-col md:flex-row justify-between items-center gap-3 bg-slate-50 p-4 rounded-xl border">
-                <!-- Bộ lọc đội -->
-                <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-                    <span class="text-xs font-bold text-gray-700 whitespace-nowrap">Lọc Đội:</span>
+                <!-- Bộ lọc đội và trạng thái -->
+                <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 flex-wrap">
+                    <span class="text-xs font-bold text-gray-700 whitespace-nowrap">Đội:</span>
                     <button onclick="filterTeam('Tất cả')" class="team-btn px-3 py-1.5 bg-slate-800 text-white rounded-lg text-xs font-bold whitespace-nowrap">Tất Cả</button>
                     <button onclick="filterTeam('Đội 1')" class="team-btn px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold whitespace-nowrap">Đội 1</button>
                     <button onclick="filterTeam('Đội 2')" class="team-btn px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold whitespace-nowrap">Đội 2</button>
                     <button onclick="filterTeam('Đội 3')" class="team-btn px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold whitespace-nowrap">Đội 3</button>
                     <button onclick="filterTeam('Đội 4')" class="team-btn px-3 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold whitespace-nowrap">Đội 4</button>
+                    
+                    <span class="text-xs font-bold text-gray-700 whitespace-nowrap ml-2">Trạng thái:</span>
+                    <select id="statusFilter" onchange="renderRescueTable()" class="border rounded-lg px-2 py-1.5 text-xs font-bold bg-white text-gray-700">
+                        <option value="ALL">Tất cả (Chưa hoàn thành)</option>
+                        <option value="Yêu cầu mới gửi">Yêu cầu mới</option>
+                        <option value="Đang tiếp cận">Đang tiếp cận</option>
+                    </select>
                 </div>
                 
-                <!-- THANH CÔNG CỤ CHỨA ĐỦ CÁC NÚT -->
+                <!-- THANH TÌM KIẾM & CÔNG CỤ -->
                 <div class="flex items-center gap-2 w-full md:w-auto justify-between md:justify-end flex-wrap">
+                    <input type="text" id="searchInput" onkeyup="renderRescueTable()" placeholder="🔍 Tìm tên, SĐT, địa chỉ..." class="border rounded-lg px-3 py-1.5 text-xs w-48 bg-white">
+                    <button onclick="openAddRescueModal()" class="bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-red-700">➕ Thêm Hộ</button>
                     <button onclick="loadRescueData()" class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-blue-700">🔄 Làm Mới</button>
-                    <button onclick="openRouteForCurrentTeam()" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700">🚗 Xem Tuyến Đường (<span id="routeTeamLabel">Tất cả</span>)</button>
-                    <button onclick="openAllHousesMapForTeam()" class="bg-amber-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-amber-700 shadow">🗺️ Bản Đồ Tất Cả Hộ (<span id="mapTeamLabel">Tất cả</span>)</button>
-                    <button onclick="downloadKMLForCurrentTeam()" class="bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-emerald-700">📥 Tải KML Lộ Trình (<span id="kmlTeamLabel">Tất cả</span>)</button>
+                    <button onclick="openRouteForCurrentTeam()" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700">🚗 Xem Tuyến</button>
+                    <button onclick="downloadKMLForCurrentTeam()" class="bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-emerald-700">📥 Tải KML</button>
                 </div>
+            </div>
+
+            <!-- CẢNH BÁO TRÙNG LẶP -->
+            <div id="duplicateWarningBox" class="bg-amber-50 border border-amber-300 text-amber-800 p-3 rounded-xl text-xs font-semibold hidden flex items-center justify-between">
+                <span id="duplicateWarningText">⚠️ Phát hiện có hộ dân gửi trùng lặp thông tin!</span>
+                <button onclick="document.getElementById('duplicateWarningBox').classList.add('hidden')" class="font-bold text-amber-900">✕ Đóng</button>
             </div>
 
             <div id="loading-rescue" class="text-center py-12 text-gray-500 font-medium">Đang tải dữ liệu cứu hộ...</div>
             
             <div class="overflow-x-auto border rounded-xl shadow-sm hidden" id="table-rescue-container">
-                <table class="w-full text-left border-collapse min-w-[1400px]">
+                <table class="w-full text-left border-collapse min-w-[1500px]">
                     <thead>
                         <tr class="bg-slate-800 text-white text-xs uppercase tracking-wider">
                             <th class="p-3 border w-12 text-center">STT</th>
@@ -86,14 +192,15 @@
                             <th class="p-3 border">Họ và Tên</th>
                             <th class="p-3 border">Điện thoại</th>
                             <th class="p-3 border">Địa chỉ</th>
-                            <th class="p-3 border w-32 text-center">Nhân Khẩu (Tổng/Già/Trẻ/Thai/Lớn)</th>
+                            <th class="p-3 border w-32 text-center">Vị Trí Định Vị (GPS)</th>
+                            <th class="p-3 border w-32 text-center">Nhân Khẩu</th>
                             <th class="p-3 border w-28">Loại Nhà</th>
                             <th class="p-3 border w-32 text-center">Mức Ưu Tiên</th>
                             <th class="p-3 border">Nhu Cầu / Tình Trạng</th>
                             <th class="p-3 border">Ghi Chú</th>
                             <th class="p-3 border w-32 text-center">Đội</th>
                             <th class="p-3 border w-36 text-center">Trạng Thái</th>
-                            <th class="p-3 border w-28 text-center">Bản Đồ</th>
+                            <th class="p-3 border w-32 text-center">Hành Động</th>
                         </tr>
                     </thead>
                     <tbody id="tbody-rescue" class="text-sm divide-y divide-gray-200 bg-white"></tbody>
@@ -101,7 +208,39 @@
             </div>
         </div>
 
-        <!-- TAB 2: QUẢN LÝ KHẢO SÁT VÙNG THẤP -->
+        <!-- TAB 2: PAGE RIÊNG CHO HỘ ĐÃ HOÀN THÀNH -->
+        <div id="section-completed" class="space-y-4 hidden">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-3 bg-green-50 p-4 rounded-xl border border-green-200">
+                <span class="text-sm font-bold text-green-800">✅ Danh sách các hộ dân đã được cứu hộ / hoàn thành (Đã tách khỏi bảng chính):</span>
+                <div class="flex items-center gap-2">
+                    <input type="text" id="searchCompletedInput" onkeyup="renderCompletedTable()" placeholder="🔍 Tìm kiếm hộ đã xong..." class="border rounded-lg px-3 py-1.5 text-xs w-48 bg-white">
+                    <button onclick="loadRescueData()" class="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-bold">🔄 Làm Mới</button>
+                </div>
+            </div>
+            <div class="overflow-x-auto border rounded-xl shadow-sm bg-white" id="table-completed-container">
+                <table class="w-full text-left border-collapse min-w-[1400px]">
+                    <thead>
+                        <tr class="bg-green-800 text-white text-xs uppercase tracking-wider">
+                            <th class="p-3 border w-12 text-center">STT</th>
+                            <th class="p-3 border w-36">Thời Gian Gửi</th>
+                            <th class="p-3 border">Họ và Tên</th>
+                            <th class="p-3 border">Điện thoại</th>
+                            <th class="p-3 border">Địa chỉ</th>
+                            <th class="p-3 border w-32 text-center">Vị Trí GPS</th>
+                            <th class="p-3 border w-32 text-center">Nhân Khẩu</th>
+                            <th class="p-3 border w-28">Loại Nhà</th>
+                            <th class="p-3 border">Nhu Cầu / Tình Trạng</th>
+                            <th class="p-3 border w-32 text-center">Đội Phụ Trách</th>
+                            <th class="p-3 border w-36 text-center">Trạng Thái</th>
+                            <th class="p-3 border w-28 text-center">Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-completed" class="text-sm divide-y divide-gray-200 bg-white"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 3: QUẢN LÝ KHẢO SÁT VÙNG THẤP -->
         <div id="section-survey" class="space-y-4 hidden">
             <div class="flex justify-between items-center bg-slate-50 p-4 rounded-xl border">
                 <span class="text-sm font-bold text-gray-700">Danh sách hộ dân khảo sát vùng thấp (Chờ chuyển sơ tán):</span>
@@ -138,7 +277,6 @@
         let surveyData = [];
         let currentTeam = 'Tất cả';
 
-        // KIỂM TRA TRẠNG THÁI ĐĂNG NHẬP KHI TẢI TRANG
         window.onload = function() {
             if (localStorage.getItem("isLoggedIn") === "true") {
                 document.getElementById('loginModal').classList.add('hidden');
@@ -147,7 +285,6 @@
             }
         };
 
-        // XỬ LÝ ĐĂNG NHẬP
         function handleLogin(e) {
             e.preventDefault();
             const user = document.getElementById('username').value.trim();
@@ -165,29 +302,27 @@
             }
         }
 
-        // XỬ LÝ ĐĂNG XUẤT
         function handleLogout() {
             localStorage.removeItem("isLoggedIn");
-            document.getElementById('loginModal').classList.remove('hidden');
+            document.getElementById('loginModal').classList.add('hidden');
             document.getElementById('mainDashboard').classList.add('hidden');
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
         }
 
         function switchTab(tab) {
-            ['rescue', 'survey'].forEach(t => {
+            ['rescue', 'completed', 'survey'].forEach(t => {
                 document.getElementById(`section-${t}`).classList.add('hidden');
                 document.getElementById(`tab-${t}`).className = "px-4 py-2 rounded-lg font-bold text-xs md:text-sm text-gray-600";
             });
             document.getElementById(`section-${tab}`).classList.remove('hidden');
             document.getElementById(`tab-${tab}`).className = "px-4 py-2 rounded-lg font-bold text-xs md:text-sm bg-white text-red-600 shadow";
-            if(tab === 'rescue') loadRescueData();
+            if(tab === 'rescue' || tab === 'completed') renderRescueTable();
             if(tab === 'survey') loadSurveyData();
         }
 
         function loadRescueData() {
             document.getElementById('loading-rescue').style.display = 'block';
-            document.getElementById('loading-rescue').innerHTML = 'Đang tải dữ liệu cứu hộ từ Google Sheets...';
             document.getElementById('table-rescue-container').classList.add('hidden');
 
             fetch(SCRIPT_URL + '?action=getData')
@@ -196,24 +331,45 @@
                 document.getElementById('loading-rescue').style.display = 'none';
                 if (res.success) { 
                     rescueData = res.data; 
+                    checkDuplicates();
                     renderRescueTable(); 
+                    renderCompletedTable();
                     document.getElementById('table-rescue-container').classList.remove('hidden'); 
-                } else {
-                    document.getElementById('loading-rescue').style.display = 'block';
-                    document.getElementById('loading-rescue').innerHTML = '<span class="text-red-600 font-bold">Lỗi từ Google Sheets: ' + (res.message || 'Không thể đọc dữ liệu') + '</span>';
                 }
             }).catch(err => {
                 document.getElementById('loading-rescue').style.display = 'block';
-                document.getElementById('loading-rescue').innerHTML = '<span class="text-red-600 font-bold">Không kết nối được với Script! Hãy kiểm tra lại quyền Deploy Web App ở chế độ "Anyone" (Bất kỳ ai).</span>';
+                document.getElementById('loading-rescue').innerHTML = '<span class="text-red-600 font-bold">Lỗi kết nối Google Script!</span>';
             });
+        }
+
+        // HÀM KIỂM TRA TRÙNG LẶP (Dựa trên Số điện thoại hoặc Họ tên + Địa chỉ giống nhau)
+        function checkDuplicates() {
+            let mapCount = {};
+            let duplicatesFound = [];
+
+            rescueData.forEach(item => {
+                let phone = (item.phone || '').trim();
+                let nameKey = (item.name || '').trim().toLowerCase() + ' - ' + (item.address || '').trim().toLowerCase();
+                
+                if (phone && phone.length > 5) {
+                    mapCount[phone] = (mapCount[phone] || 0) + 1;
+                }
+            });
+
+            let duplicatePhones = Object.keys(mapCount).filter(p => mapCount[p] > 1);
+            let box = document.getElementById('duplicateWarningBox');
+            let text = document.getElementById('duplicateWarningText');
+
+            if (duplicatePhones.length > 0) {
+                text.innerText = `⚠️ Cảnh báo: Có ${duplicatePhones.length} số điện thoại gửi yêu cầu cứu hộ nhiều lần (Trùng lặp)! Hãy kiểm tra kỹ trước khi điều phối.`;
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+            }
         }
 
         function filterTeam(team) {
             currentTeam = team;
-            if(document.getElementById('kmlTeamLabel')) document.getElementById('kmlTeamLabel').innerText = team;
-            if(document.getElementById('routeTeamLabel')) document.getElementById('routeTeamLabel').innerText = team;
-            if(document.getElementById('mapTeamLabel')) document.getElementById('mapTeamLabel').innerText = team;
-            
             document.querySelectorAll('.team-btn').forEach(btn => {
                 btn.className = btn.innerText.includes(team) ? 
                     "team-btn px-3 py-1.5 bg-slate-800 text-white rounded-lg text-xs font-bold whitespace-nowrap" : 
@@ -229,13 +385,33 @@
             return 'bg-green-600 text-white';
         }
 
+        // RENDER BẢNG CỨU HỘ CHÍNH (Đã lọc bỏ các hộ đã hoàn thành ra trang riêng, tích hợp search và lọc trạng thái)
         function renderRescueTable() {
             const tbody = document.getElementById('tbody-rescue'); 
             tbody.innerHTML = '';
-            let filtered = rescueData.filter(item => currentTeam === 'Tất cả' || item.doi === currentTeam);
+            
+            let statusVal = document.getElementById('statusFilter').value;
+            let searchText = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            // Chỉ lấy các hộ chưa hoàn thành để đưa vào bảng điều phối chính
+            let filtered = rescueData.filter(item => {
+                let isCompleted = (item.status === 'Hoàn thành');
+                if (isCompleted) return false; // Ẩn khỏi bảng chính, đã chuyển qua tab Hoàn Thành
+
+                let matchTeam = (currentTeam === 'Tất cả' || item.doi === currentTeam);
+                let matchStatus = (statusVal === 'ALL' || item.status === statusVal);
+                
+                let matchSearch = !searchText || 
+                    (item.name && item.name.toLowerCase().includes(searchText)) ||
+                    (item.phone && item.phone.toLowerCase().includes(searchText)) ||
+                    (item.address && item.address.toLowerCase().includes(searchText)) ||
+                    (item.gps && item.gps.toLowerCase().includes(searchText));
+
+                return matchTeam && matchStatus && matchSearch;
+            });
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="13" class="text-center py-8 text-gray-400 font-medium">Không có dữ liệu trong ${currentTeam}.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="14" class="text-center py-8 text-gray-400 font-medium">Không tìm thấy yêu cầu cứu hộ phù hợp.</td></tr>`;
                 return;
             }
 
@@ -248,6 +424,9 @@
                     <td class="p-3 border font-black text-gray-800">${item.name}</td>
                     <td class="p-3 border text-blue-600 font-bold"><a href="tel:${item.phone}">${item.phone}</a></td>
                     <td class="p-3 border text-gray-600 text-xs">${item.address}</td>
+                    <td class="p-3 border text-xs text-center font-mono font-bold text-indigo-700 bg-indigo-50">
+                        ${item.gps ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.gps)}" target="_blank" class="hover:underline">${item.gps}</a>` : '<span class="text-gray-400">Chưa có</span>'}
+                    </td>
                     <td class="p-3 border text-center text-xs font-medium">
                         <b>${item.totalPeople} người</b><br/>
                         <span class="text-gray-500">(Già: ${item.elders}, Trẻ: ${item.children}, Thai: ${item.pregnant}, Lớn: ${item.adults})</span>
@@ -272,17 +451,142 @@
                         </select>
                     </td>
                     <td class="p-3 border text-center">
-                        <select onchange="updateField(${item.rowNum}, 'HỘ_DÂN', 'status', this.value)" class="border rounded-lg p-1 text-xs font-bold ${item.status === 'Hoàn thành' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'} w-full cursor-pointer">
-                            <option value="Yêu cầu mới gửi" ${item.status === 'Yêu cầu mới gửi' ? 'selected' : ''}>Yêu cầu mới gửi</option>
+                        <select onchange="updateField(${item.rowNum}, 'HỘ_DÂN', 'status', this.value)" class="border rounded-lg p-1 text-xs font-bold bg-orange-100 text-orange-700 w-full cursor-pointer">
+                            <option value="Yêu cầu mới gửi" ${item.status === 'Yêu cầu mới gửi' ? 'selected' : ''}>Yêu cầu mới</option>
                             <option value="Đang tiếp cận" ${item.status === 'Đang tiếp cận' ? 'selected' : ''}>Đang tiếp cận</option>
-                            <option value="Hoàn thành" ${item.status === 'Hoàn thành' ? 'selected' : ''}>Hoàn thành</option>
+                            <option value="Hoàn thành" ${item.status === 'Hoàn thành' ? 'selected' : ''}>✅ Hoàn thành (Chuyển đi)</option>
                         </select>
                     </td>
-                    <td class="p-3 border text-center">
-                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.gps)}" target="_blank" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold inline-block hover:bg-blue-700">🗺️ Maps</a>
+                    <td class="p-3 border text-center space-y-1">
+                        <button onclick="openEditRescueModal(${item.rowNum})" class="bg-amber-500 text-white px-2 py-1 rounded text-[11px] font-bold hover:bg-amber-600 block w-full">✏️ Sửa</button>
+                        <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.gps || item.address)}" target="_blank" class="bg-blue-600 text-white px-2 py-1 rounded text-[11px] font-bold inline-block w-full hover:bg-blue-700">🗺️ Map</a>
                     </td>
                 `;
                 tbody.appendChild(tr);
+            });
+        }
+
+        // RENDER PAGE RIÊNG CHO CÁC HỘ ĐÃ HOÀN THÀNH
+        function renderCompletedTable() {
+            const tbody = document.getElementById('tbody-completed');
+            tbody.innerHTML = '';
+            
+            let searchText = document.getElementById('searchCompletedInput').value.toLowerCase().trim();
+            let completedList = rescueData.filter(item => {
+                if (item.status !== 'Hoàn thành') return false;
+                if (!searchText) return true;
+                return (item.name && item.name.toLowerCase().includes(searchText)) ||
+                       (item.phone && item.phone.toLowerCase().includes(searchText)) ||
+                       (item.address && item.address.toLowerCase().includes(searchText));
+            });
+
+            if (completedList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="12" class="text-center py-8 text-gray-400 font-medium">Chưa có hộ dân nào hoàn thành cứu hộ.</td></tr>`;
+                return;
+            }
+
+            completedList.forEach((item, index) => {
+                let tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50 transition border-b bg-green-50/30";
+                tr.innerHTML = `
+                    <td class="p-3 border text-center font-bold text-xs">${index + 1}</td>
+                    <td class="p-3 border text-xs font-semibold text-gray-500">${item.time || 'N/A'}</td>
+                    <td class="p-3 border font-black text-gray-800">${item.name}</td>
+                    <td class="p-3 border text-blue-600 font-bold"><a href="tel:${item.phone}">${item.phone}</a></td>
+                    <td class="p-3 border text-gray-600 text-xs">${item.address}</td>
+                    <td class="p-3 border text-xs text-center font-mono font-bold text-indigo-700">${item.gps || '-'}</td>
+                    <td class="p-3 border text-center text-xs"><b>${item.totalPeople} người</b></td>
+                    <td class="p-3 border text-xs">${item.houseType || 'Nhà Cấp 4'}</td>
+                    <td class="p-3 border text-xs text-gray-700">${item.priorityOrNeed || '-'}</td>
+                    <td class="p-3 border text-center text-xs font-bold text-blue-700">${item.doi || '-'}</td>
+                    <td class="p-3 border text-center text-xs font-bold text-green-700">Đã Hoàn Thành</td>
+                    <td class="p-3 border text-center">
+                        <button onclick="updateField(${item.rowNum}, 'HỘ_DÂN', 'status', 'Yêu cầu mới gửi')" class="bg-amber-600 text-white px-2 py-1 rounded text-[11px] font-bold hover:bg-amber-700">↩️ Hoàn Tác</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // QUẢN LÝ MODAL THÊM / SỬA HỘ DÂN
+        function openAddRescueModal() {
+            document.getElementById('modalTitle').innerText = "➕ Thêm Hộ Dân Cứu Hộ Mới";
+            document.getElementById('editRowNum').value = '';
+            document.getElementById('inputName').value = '';
+            document.getElementById('inputPhone').value = '';
+            document.getElementById('inputAddress').value = '';
+            document.getElementById('inputTotal').value = '1';
+            document.getElementById('inputElders').value = '0';
+            document.getElementById('inputChildren').value = '0';
+            document.getElementById('inputPregnant').value = '0';
+            document.getElementById('inputAdults').value = '1';
+            document.getElementById('inputHouseType').value = 'Nhà Cấp 4';
+            document.getElementById('inputPriority').value = 'Cấp 2';
+            document.getElementById('inputDoi').value = currentTeam === 'Tất cả' ? 'Đội 1' : currentTeam;
+            document.getElementById('inputGps').value = '';
+            document.getElementById('inputNeed').value = '';
+            document.getElementById('inputNote').value = '';
+            document.getElementById('rescueModal').classList.remove('hidden');
+        }
+
+        function openEditRescueModal(rowNum) {
+            let item = rescueData.find(d => d.rowNum === rowNum);
+            if (!item) return;
+            document.getElementById('modalTitle').innerText = "✏️ Sửa Thông Tin Hộ Dân Cứu Hộ";
+            document.getElementById('editRowNum').value = item.rowNum;
+            document.getElementById('inputName').value = item.name || '';
+            document.getElementById('inputPhone').value = item.phone || '';
+            document.getElementById('inputAddress').value = item.address || '';
+            document.getElementById('inputTotal').value = item.totalPeople || 1;
+            document.getElementById('inputElders').value = item.elders || 0;
+            document.getElementById('inputChildren').value = item.children || 0;
+            document.getElementById('inputPregnant').value = item.pregnant || 0;
+            document.getElementById('inputAdults').value = item.adults || 1;
+            document.getElementById('inputHouseType').value = item.houseType || 'Nhà Cấp 4';
+            document.getElementById('inputPriority').value = item.priority || 'Cấp 2';
+            document.getElementById('inputDoi').value = item.doi || 'Đội 1';
+            document.getElementById('inputGps').value = item.gps || '';
+            document.getElementById('inputNeed').value = item.priorityOrNeed || '';
+            document.getElementById('inputNote').value = item.note || '';
+            document.getElementById('rescueModal').classList.remove('hidden');
+        }
+
+        function closeRescueModal() {
+            document.getElementById('rescueModal').classList.add('hidden');
+        }
+
+        function saveRescueItem(e) {
+            e.preventDefault();
+            let rowNum = document.getElementById('editRowNum').value;
+            let payload = {
+                action: rowNum ? 'updateRescueItem' : 'addRescueItem',
+                rowNum: rowNum ? parseInt(rowNum) : null,
+                name: document.getElementById('inputName').value,
+                phone: document.getElementById('inputPhone').value,
+                address: document.getElementById('inputAddress').value,
+                totalPeople: document.getElementById('inputTotal').value,
+                elders: document.getElementById('inputElders').value,
+                children: document.getElementById('inputChildren').value,
+                pregnant: document.getElementById('inputPregnant').value,
+                adults: document.getElementById('inputAdults').value,
+                houseType: document.getElementById('inputHouseType').value,
+                priority: document.getElementById('inputPriority').value,
+                doi: document.getElementById('inputDoi').value,
+                gps: document.getElementById('inputGps').value,
+                priorityOrNeed: document.getElementById('inputNeed').value,
+                note: document.getElementById('inputNote').value,
+                status: 'Yêu cầu mới gửi'
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Đã lưu thông tin thành công!");
+                closeRescueModal();
+                setTimeout(loadRescueData, 1000);
             });
         }
 
@@ -348,8 +652,8 @@
             if (item) {
                 item[field] = value;
                 if (field === 'priority' || field === 'doi' || field === 'status') {
-                    if (sheetName === 'HỘ_DÂN') renderRescueTable();
-                    else renderSurveyTable();
+                    renderRescueTable();
+                    renderCompletedTable();
                 }
             }
 
@@ -389,48 +693,14 @@
                 return;
             }
 
-            function getDistance(p1, p2) {
-                let [lat1, lon1] = p1.gps.split(',').map(Number);
-                let [lat2, lon2] = p2.gps.split(',').map(Number);
-                let dLat = lat2 - lat1;
-                let dLon = lon2 - lon1;
-                return Math.sqrt(dLat * dLat + dLon * dLon);
-            }
-
-            let sortedPoints = [];
-            ['Cấp 1', 'Cấp 2', 'Cấp 3', 'Cấp 4'].forEach(level => {
-                let levelGroup = rawPoints.filter(p => (p.priority || 'Cấp 2') === level);
-                while (levelGroup.length > 0) {
-                    if (sortedPoints.length === 0) {
-                        sortedPoints.push(levelGroup.shift());
-                    } else {
-                        let lastPoint = sortedPoints[sortedPoints.length - 1];
-                        let nearestIdx = 0;
-                        let minDst = getDistance(lastPoint, levelGroup[0]);
-                        
-                        for (let i = 1; i < levelGroup.length; i++) {
-                            let dst = getDistance(lastPoint, levelGroup[i]);
-                            if (dst < minDst) {
-                                minDst = dst;
-                                nearestIdx = i;
-                            }
-                        }
-                        sortedPoints.push(levelGroup.splice(nearestIdx, 1)[0]);
-                    }
-                }
-            });
-
-            let teamPoints = sortedPoints;
             let placemarksXML = '';
-            let allRouteCoords = [];
+            let teamPoints = rawPoints;
 
             teamPoints.forEach((item, index) => {
                 const parts = item.gps.split(',');
                 if(parts.length >= 2) {
                     const lat = parts[0].trim();
                     const lng = parts[1].trim();
-                    
-                    allRouteCoords.push([parseFloat(lng), parseFloat(lat)]);
                     let priorityClass = item.priority ? item.priority.replace(/\s+/g, '_') : 'Cấp_2';
 
                     placemarksXML += `
@@ -439,27 +709,10 @@
       <styleUrl>#style_${priorityClass}</styleUrl>
       <description><![CDATA[
         <div style="font-family: Arial, sans-serif; width: 300px; padding: 5px;">
-          <h3 style="color: #d32f2f; margin: 0 0 8px 0; border-bottom: 2px solid #d32f2f; padding-bottom: 5px;">
-            🚨 HỘ CẦN CỨU HỘ: ${item.name}
-          </h3>
-          <p style="margin: 4px 0;"><b>🔢 Thứ tự ghé thăm:</b> Điểm số ${index + 1}</p>
-          <p style="margin: 4px 0;"><b>📱 Số điện thoại:</b> <a href="tel:${item.phone}">${item.phone}</a></p>
-          <p style="margin: 4px 0;"><b>🏠 Địa chỉ:</b> ${item.address}</p>
-          <p style="margin: 4px 0;"><b>⚠️ Mức ưu tiên:</b> <span style="color:#d32f2f; font-weight:bold;">${item.priority}</span></p>
-          <p style="margin: 4px 0;"><b>🚤 Đội phụ trách:</b> ${item.doi}</p>
-          <div style="background-color: #f1f3f4; padding: 8px; border-radius: 5px; margin: 8px 0;">
-            <b>👥 Nhân khẩu (${item.totalPeople} người):</b>
-            <ul style="margin: 4px 0; padding-left: 20px;">
-              <li>👴 Người già: <b>${item.elders || 0}</b></li>
-              <li>👶 Trẻ em: <b>${item.children || 0}</b></li>
-              <li>🧑 Người lớn: <b>${item.adults || 0}</b></li>
-            </ul>
-          </div>
-          <div style="background-color: #fff3cd; border: 1px solid #ffeeba; padding: 8px; border-radius: 5px; margin: 8px 0;">
-            <b>📌 Nhu cầu & Ghi chú:</b><br/>
-            <span style="color: #856404;">Nhà: ${item.houseType || 'Nhà Cấp 4'} | Nhu cầu: ${item.priorityOrNeed || 'Cần sơ tán gấp'} | Ghi chú: ${item.note || 'Không'}</span>
-          </div>
-          <p style="font-size: 11px; color: #777; margin-top: 8px;"><b>📍 Tọa độ GPS:</b> ${item.gps}</p>
+          <h3 style="color: #d32f2f; margin: 0 0 8px 0;">🚨 ${item.name}</h3>
+          <p><b>📱 SĐT:</b> <a href="tel:${item.phone}">${item.phone}</a></p>
+          <p><b>🏠 Địa chỉ:</b> ${item.address}</p>
+          <p><b>📍 Vị trí/GPS:</b> ${item.gps}</p>
         </div>
       ]]></description>
       <Point>
@@ -469,82 +722,13 @@
                 }
             });
 
-            let btnLabel = document.getElementById('kmlTeamLabel');
-            let originalText = btnLabel ? btnLabel.innerText : '';
-            if(btnLabel) btnLabel.innerText = "Đang tối ưu đường đi...";
-
-            let routeCoordinatesStr = '';
-
-            try {
-                if (allRouteCoords.length > 1) {
-                    let coordsString = allRouteCoords.map(c => c.join(',')).join(';');
-                    let response = await fetch(`https://router.project-osrm.org/route/v1/driving/${coordsString}?overview=full&geometries=geojson`);
-                    let data = await response.json();
-
-                    if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
-                        let routeGeometry = data.routes[0].geometry.coordinates;
-                        routeCoordinatesStr = routeGeometry.map(c => `${c[0]},${c[1]},0`).join('\n          ');
-                    }
-                }
-            } catch (e) {
-                console.log("Dùng đường nối thẳng dự phòng.");
-            }
-
-            if (!routeCoordinatesStr) {
-                let fallbackArr = [];
-                teamPoints.forEach(item => {
-                    let parts = item.gps.split(',');
-                    if(parts.length >= 2) fallbackArr.push(`${parts[1].trim()},${parts[0].trim()},0`);
-                });
-                routeCoordinatesStr = fallbackArr.join('\n          ');
-            }
-
-            if(btnLabel) btnLabel.innerText = originalText;
-
-            let routeLineXML = '';
-            if (routeCoordinatesStr) {
-                routeLineXML = `
-    <Placemark>
-      <name>Lộ trình tối ưu thực tế - ${team}</name>
-      <styleUrl>#style_TuyenDuong</styleUrl>
-      <LineString>
-        <tessellate>1</tessellate>
-        <coordinates>
-          ${routeCoordinatesStr}
-        </coordinates>
-      </LineString>
-    </Placemark>`;
-            }
-
             const kmlDocument = `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>Tuyen_Cuu_Ho_${team.replace(/\s+/g, '_')}</name>
-    <open>1</open>
-    
-    <Style id="style_Cấp_1">
-      <IconStyle><scale>1.3</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/red-stars.png</href></Icon></IconStyle>
-    </Style>
-    <Style id="style_Cấp_2">
-      <IconStyle><scale>1.2</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/orange-stars.png</href></Icon></IconStyle>
-    </Style>
-    <Style id="style_Cấp_3">
-      <IconStyle><scale>1.1</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/ylw-stars.png</href></Icon></IconStyle>
-    </Style>
-    <Style id="style_Cấp_4">
-      <IconStyle><scale>1.0</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/grn-stars.png</href></Icon></IconStyle>
-    </Style>
-    <Style id="style_TuyenDuong">
-      <LineStyle><color>ff0000ff</color><width>6</width></LineStyle>
-    </Style>
-
+    <name>Tuyen_Cuu_Ho_${team}</name>
     <Folder>
-      <name>📍 Điểm Cứu Hộ (Đã tối ưu khoảng cách)</name>
+      <name>📍 Điểm Cứu Hộ</name>
       ${placemarksXML}
-    </Folder>
-    <Folder>
-      <name>🛣️ Lộ Trình Xe Chạy Thực Tế</name>
-      ${routeLineXML}
     </Folder>
   </Document>
 </kml>`;
@@ -553,7 +737,7 @@
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Tuyen_Cuu_Ho_${team.replace(/\s+/g, '_')}.kml`;
+            a.download = `Tuyen_Cuu_Ho_${team}.kml`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
@@ -563,34 +747,15 @@
         function openAllHousesMapForTeam() {
             let team = currentTeam;
             if (team === 'Tất cả') {
-                team = prompt("Nhập tên đội muốn xem bản đồ tất cả các hộ (Đội 1, Đội 2, Đội 3, Đội 4):", "Đội 1");
+                team = prompt("Nhập tên đội muốn xem bản đồ (Đội 1, Đội 2, Đội 3, Đội 4):", "Đội 1");
                 if(!team) return;
             }
-
             let teamPoints = rescueData.filter(item => item.doi === team && item.status !== 'Hoàn thành' && item.gps);
-            
             if (teamPoints.length === 0) {
-                alert(`Không có điểm cứu hộ nào đang chờ xử lý cho ${team} hoặc chưa có tọa độ GPS!`);
+                alert(`Không có điểm cứu hộ nào có tọa độ cho ${team}!`);
                 return;
             }
-
-            let coordinates = teamPoints.map(item => item.gps.trim());
-            
-            if (coordinates.length === 1) {
-                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(coordinates[0])}`, '_blank');
-                return;
-            }
-
-            let origin = coordinates[0];
-            let destination = coordinates[coordinates.length - 1];
-            let waypoints = coordinates.slice(1, coordinates.length - 1).join('|');
-
-            let mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`;
-            if (waypoints.length > 0) {
-                mapsUrl += `&waypoints=${encodeURIComponent(waypoints)}`;
-            }
-
-            window.open(mapsUrl, '_blank');
+            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(teamPoints[0].gps)}`, '_blank');
         }
 
         function openRouteForCurrentTeam() {
